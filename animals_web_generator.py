@@ -14,10 +14,13 @@ for animal in animals_data:
     location = animal['locations'][0]
     type_ = animal['characteristics'].get('type')
 
-    animals_output += f"Name: {name} "
-    animals_output += f"Diet: {diet} "
-    animals_output += f"Location: {location} "
-    animals_output += f"Type: {type_} "
+    animals_output += '<li class="cards__item">'
+    animals_output += f"{name}<br/>"
+    animals_output += f"Diet: {diet}<br/>"
+    animals_output += f"Location: {location}<br/>"
+    if type_:
+        animals_output += f"Type: {type_}<br/>"
+    animals_output += "</li>\n"
 
 updated_html_content = template_content.replace("__REPLACE_ANIMALS_INFO__", animals_output)
 
