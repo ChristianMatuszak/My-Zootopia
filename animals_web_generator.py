@@ -1,21 +1,27 @@
 import json
 
-def load_data(file_path):
-    """Loads a JSON file"""
-    with open(file_path, "r") as handle:
-        return json.load(handle)
+with open("animals_template.html", "r") as file:
+    template_content = file.read()
 
-animals_data = load_data("animals_data.json")
 
+with open("animals_data.json", "r") as file:
+    animals_data = json.load(file)
+
+animals_output = ""
 for animal in animals_data:
-    if "name" in animal:
-        print(f"Name: {animal['name']}")
-    if "characteristics" in animal and "diet" in animal["characteristics"]:
-        print(f"Diet: {animal['characteristics']['diet']}")
-    if "locations" in animal and animal["locations"]:
-        print(f"Location: {animal['locations'][0]}")
-    if "characteristics" in animal and "type" in animal["characteristics"]:
-        animal_type = animal["characteristics"]["type"]
-        if animal_type and animal_type.strip():
-            print(f"Type: {animal_type}")
-    print()
+    name = animal['name']
+    diet = animal['characteristics']['diet']
+    location = animal['locations'][0]
+    type_ = animal['characteristics'].get('type')
+
+    animals_output += f"Name: {name} "
+    animals_output += f"Diet: {diet} "
+    animals_output += f"Location: {location} "
+    animals_output += f"Type: {type_} "
+
+updated_html_content = template_content.replace("__REPLACE_ANIMALS_INFO__", animals_output)
+
+with open("animals.html", "w") as file:
+    file.write(updated_html_content)
+
+print("animals.html has been created successfully.")
