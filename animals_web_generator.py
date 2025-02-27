@@ -11,7 +11,7 @@ except Exception as e:
     exit(1)
 
 try:
-    with open("animals.json", "r", encoding="utf-8") as file:
+    with open("animals_data.json", "r", encoding="utf-8") as file:
         animals_data = json.load(file)
 except FileNotFoundError:
     print("Error: The data file 'animals.json' was not found.")
@@ -34,26 +34,23 @@ def serialize_animal(animal):
     color = animal['characteristics'].get('color')
     scientific_name = animal['taxonomy'].get('scientific_name')
 
-    output = '<li class="cards__item">\n'
-    output += f'  <div class="card__title">{name}</div>\n'
-    output += '  <br/>\n'
-    output += '  <div class="card__text">\n'
-    output += '    <ul class="animal-details">\n'
-    output += f'      <li class="animal-detail"><strong>Diet:</strong> {diet}</li>\n'
-    output += f'      <li class="animal-detail"><strong>Location:</strong> {location}</li>\n'
-    if type_:
-        output += f'      <li class="animal-detail"><strong>Type:</strong> {type_}</li>\n'
-    if lifespan:
-        output += f'      <li class="animal-detail"><strong>Lifespan:</strong> {lifespan}</li>\n'
-    if color:
-        output += f'      <li class="animal-detail"><strong>Color:</strong> {color}</li>\n'
-    if scientific_name:
-        output += f'      <li class="animal-detail"><strong>Scientific Name:</strong> {scientific_name}</li>\n'
-    output += '    </ul>\n'
-    output += '  </div>\n'
-    output += '</li>\n'
+    return f'''
+    <li class="cards__item">
+      <div class="card__title">{name}</div>
+      <br/>
+      <div class="card__text">
+        <ul class="animal-details">
+          <li class="animal-detail"><strong>Diet:</strong> {diet}</li>
+          <li class="animal-detail"><strong>Location:</strong> {location}</li>
+          {f'<li class="animal-detail"><strong>Type:</strong> {type_}</li>' if type_ else ''}
+          {f'<li class="animal-detail"><strong>Lifespan:</strong> {lifespan}</li>' if lifespan else ''}
+          {f'<li class="animal-detail"><strong>Color:</strong> {color}</li>' if color else ''}
+          {f'<li class="animal-detail"><strong>Scientific Name:</strong> {scientific_name}</li>' if scientific_name else ''}
+        </ul>
+      </div>
+    </li>
+    '''
 
-    return output
 
 def main():
 
